@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-500: #c5a059;
+  --primary-600: #b18e4a;
+  --dark-900: #1a1614;
+}
+
+body {
+  direction: rtl;
+  font-family: 'Tajawal', sans-serif;
+  background-color: #fcfaf7; /* Off-white / Cream */
+  color: #2a2420;
+  margin: 0;
+}
+
+/* Ensure primary colors are visible */
+.bg-primary-600 {
+  background-color: var(--primary-600) !important;
+}
+
+.text-primary-600 {
+  color: var(--primary-600) !important;
+}
+
+.text-primary-500 {
+  color: var(--primary-500) !important;
+}
+
+.bg-dark-900 {
+  background-color: var(--dark-900) !important;
+}
