@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api.js';
 import useAuthStore from '../store/authStore';
-import { TrendingUp, DollarSign, Activity, Package, AlertTriangle } from 'lucide-react';
+import { TrendingUp, DollarSign, Activity, Package, AlertTriangle, CheckCircle } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
 const Dashboard = () => {
@@ -47,16 +47,8 @@ const Dashboard = () => {
     );
   }
 
-  // Dummy chart data since our api aggregates might not have full daily history yet
-  const chartData = [
-    { name: 'السبت', value: 4000 },
-    { name: 'الأحد', value: 3000 },
-    { name: 'الإثنين', value: 2000 },
-    { name: 'الثلاثاء', value: 2780 },
-    { name: 'الأربعاء', value: 1890 },
-    { name: 'الخميس', value: 2390 },
-    { name: 'الجمعة', value: 3490 },
-  ];
+  // Use chart data from stats or empty array
+  const chartData = stats?.chartData || [];
 
   return (
     <div className="space-y-6">
@@ -94,6 +86,48 @@ const Dashboard = () => {
           icon={<Package className="w-6 h-6 text-purple-500" />}
           color="bg-purple-50 text-purple-600"
         />
+      </div>
+
+      {/* Sales Chart */}
+      <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h3 className="text-lg font-bold text-slate-800 mb-6">إجمالي المبيعات (آخر 7 أيام)</h3>
+        <div className="h-64 w-full">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart data={chartData}>
+              <defs>
+                <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#818cf8" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#818cf8" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+              <XAxis 
+                dataKey="name" 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{fill: '#94a3b8', fontSize: 12}} 
+                dy={10}
+              />
+              <YAxis 
+                axisLine={false} 
+                tickLine={false} 
+                tick={{fill: '#94a3b8', fontSize: 12}}
+                tickFormatter={(value) => `$${value}`}
+              />
+              <Tooltip 
+                contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
+              />
+              <Area 
+                type="monotone" 
+                dataKey="value" 
+                stroke="#6366f1" 
+                strokeWidth={3}
+                fillOpacity={1} 
+                fill="url(#colorValue)" 
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

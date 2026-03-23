@@ -31,6 +31,8 @@ const createSale = async (req, res, next) => {
       product: productId,
       quantity,
       totalPrice,
+      sellingPrice: totalPrice / quantity,
+      purchasePrice: product.purchasePrice,
       user: req.user._id,
     });
 
@@ -107,18 +109,48 @@ const getDashboardStats = async (req, res, next) => {
       { $group: { _id: null, totalRevenue: { $sum: '$totalPrice' }, count: { $sum: 1 } } }
     ]);
 
-    // 3. Profit Calculation (Need to join with product to get purchase price)
+    // 3. Profit Calculation (using historical prices if available)
     const allSales = await Sale.find().populate('product', 'purchasePrice sellingPrice');
     let totalProfit = 0;
     let totalRevenueAllTime = 0;
     
     allSales.forEach(sale => {
-      if(sale.product) {
-        const profitPerItem = sale.product.sellingPrice - sale.product.purchasePrice;
-        totalProfit += profitPerItem * sale.quantity;
-      }
+      // Historical profit: Use sale record's purchase price and selling price if they exist
+      // Fallback to current product price for old records
+      const sellingPrice = sale.sellingPrice || (sale.totalPrice / sale.quantity);
+      const purchasePrice = sale.purchasePrice || (sale.product?.purchasePrice || 0);
+      
+      const profitPerItem = sellingPrice - purchasePrice;
+      totalProfit += profitPerItem * sale.quantity;
       totalRevenueAllTime += sale.totalPrice;
     });
+
+    // 3a. Weekly History for Chart
+    const sevenDaysAgo = new Date(today);
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 6);
+    
+    const weeklyAggregation = await Sale.aggregate([
+      { $match: { date: { $gte: sevenDaysAgo } } },
+      { 
+        $group: { 
+          _id: { $dateToString: { format: "%Y-%m-%d", date: "$date" } }, 
+          total: { $sum: "$totalPrice" } 
+        } 
+      },
+      { $sort: { _id: 1 } }
+    ]);
+
+    // Fill in missing days for the chart
+    const days = ['الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+    const chartData = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().split('T')[0];
+      const dayName = days[d.getDay()];
+      const dayData = weeklyAggregation.find(a => a._id === dateStr);
+      chartData.push({ name: dayName, value: dayData ? dayData.total : 0 });
+    }
 
     // 4. Low stock products
     const lowStockProducts = await Product.find({ quantity: { $lte: 5 } }).select('name quantity brand');
@@ -142,6 +174,7 @@ const getDashboardStats = async (req, res, next) => {
       monthly: monthlySales[0] || { totalRevenue: 0, count: 0 },
       totalRevenue: totalRevenueAllTime,
       totalProfit,
+      chartData,
       lowStockProducts,
       bestSellingProducts: bestSellingPopulated.map(item => ({ product: item._id, totalSold: item.totalSold })),
       recentSales: recentSales.map(sale => ({

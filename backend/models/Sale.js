@@ -15,6 +15,14 @@ const saleSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    purchasePrice: {
+      type: Number,
+      required: true,
+    },
+    sellingPrice: {
+      type: Number,
+      required: true,
+    },
     date: {
       type: Date,
       default: Date.now,
