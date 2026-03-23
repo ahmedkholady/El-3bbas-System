@@ -3,7 +3,7 @@ import api from '../services/api.js';
 import { ShoppingCart, Plus, Calendar, CheckCircle } from 'lucide-react';
 import io from 'socket.io-client';
 
-const ENDPOINT = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+const ENDPOINT = 'https://el-3bbas-system-production.up.railway.app';
 let socket;
 
 const Sales = () => {
