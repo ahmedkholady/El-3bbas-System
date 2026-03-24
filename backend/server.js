@@ -19,7 +19,8 @@ const server = http.createServer(app);
 // Configure Socket.io
 const io = socketIo(server, {
   cors: {
-    origin: '*', // For development, allow all origins
+    origin: process.env.FRONTEND_URL || '*', // In production, restrict to your frontend URL
+    methods: ["GET", "POST", "PUT", "DELETE"],
   },
 });
 
@@ -27,7 +28,12 @@ const io = socketIo(server, {
 app.set('socketio', io);
 
 // Middleware
-app.use(cors());
+const corsOptions = {
+  origin: process.env.FRONTEND_URL || '*',
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
