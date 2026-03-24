@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://3bbassystem-wz0h65c0.b4a.run/',
+  baseURL: import.meta.env.VITE_API_URL || 'https://3bbassystem-nq5fgjzd.b4a.run/',
   headers: {
     'Content-Type': 'application/json',
   },
