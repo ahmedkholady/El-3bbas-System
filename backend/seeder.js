@@ -18,14 +18,14 @@ const importData = async () => {
 
     const createdUser = await User.create({
       name: 'Admin User',
-      username: 'admin',
-      password: 'password123',
+      username: 'ahmed',
+      password: 'admin',
       role: 'admin',
     });
 
     console.log('Data Imported - Admin User created:');
     console.log(`Username: ${createdUser.username}`);
-    console.log(`Password: password123`);
+    console.log(`Password: admin`);
     process.exit();
   } catch (error) {
     console.error(`${error}`);

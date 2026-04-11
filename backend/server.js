@@ -67,11 +67,11 @@ const seedAdminUser = async () => {
     if (count === 0) {
       await User.create({
         name: 'Admin User',
-        username: 'admin',
-        password: 'password123',
+        username: 'ahmed',
+        password: 'admin',
         role: 'admin',
       });
-      console.log('✅ Admin user auto-seeded (username: admin, password: password123)');
+      console.log('✅ Admin user auto-seeded (username: ahmed, password: admin)');
     }
   } catch (error) {
     console.warn('Could not auto-seed admin user:', error.message);
