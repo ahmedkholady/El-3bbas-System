@@ -7,10 +7,11 @@ const connectDB = require('./config/db');
 
 dotenv.config();
 
-connectDB();
-
 const importData = async () => {
   try {
+    // Wait for DB connection before running queries
+    await connectDB();
+
     await Sale.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
@@ -34,6 +35,9 @@ const importData = async () => {
 
 const destroyData = async () => {
   try {
+    // Wait for DB connection before running queries
+    await connectDB();
+
     await Sale.deleteMany();
     await Product.deleteMany();
     await User.deleteMany();
