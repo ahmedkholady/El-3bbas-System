@@ -20,7 +20,7 @@ const Login = () => {
     try {
       await login(username, password);
       navigate('/');
-    } catch (err) {
+    } catch {
       // Error is handled in the store
     }
   };

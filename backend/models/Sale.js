@@ -32,6 +32,27 @@ const saleSchema = mongoose.Schema(
       required: true,
       ref: 'User',
     },
+    variantId: {
+      type: mongoose.Schema.Types.ObjectId,
+      default: null,
+    },
+    variantColor: {
+      type: String,
+      default: '',
+    },
+    variantSize: {
+      type: String,
+      default: '',
+    },
+    returnedQuantity: {
+      type: Number,
+      default: 0,
+    },
+    returnStatus: {
+      type: String,
+      enum: ['none', 'partial', 'full'],
+      default: 'none',
+    },
   },
   {
     timestamps: true,

@@ -34,6 +34,7 @@ const Sidebar = ({ isOpen, closeSidebar }) => {
             <NavLink
               key={link.name}
               to={link.path}
+              onClick={() => closeSidebar && closeSidebar()}
               className={({ isActive }) =>
                 clsx(
                   'flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors duration-200',

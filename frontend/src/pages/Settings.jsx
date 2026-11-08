@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import api from '../services/api.js';
 import useAuthStore from '../store/authStore';
 import { User, Settings as SettingsIcon, UserPlus, Save, AlertCircle } from 'lucide-react';
 
 const Settings = () => {
-  const { user, setUser } = useAuthStore();
+  const { user } = useAuthStore();
   const [activeTab, setActiveTab] = useState('profile');
   
   // Profile stats
