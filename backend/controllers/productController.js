@@ -65,6 +65,32 @@ const createProduct = async (req, res, next) => {
       lowStockThreshold,
     } = req.body;
 
+    const trimmedName = (name && String(name).trim()) || '';
+    if (!trimmedName) {
+      res.status(400);
+      throw new Error('اسم المنتج لا يمكن أن يكون فارغاً');
+    }
+
+    const trimmedBrand = (brand && String(brand).trim()) || '';
+    if (!trimmedBrand) {
+      res.status(400);
+      throw new Error('الماركة لا يمكن أن تكون فارغة');
+    }
+
+    const trimmedCategory = (category && String(category).trim()) || 'عام';
+
+    const sp = Number(sellingPrice);
+    if (!Number.isFinite(sp) || sp < 0) {
+      res.status(400);
+      throw new Error('سعر البيع يجب أن يكون رقماً لا يقل عن الصفر');
+    }
+
+    const pp = Number(purchasePrice);
+    if (!Number.isFinite(pp) || pp < 0) {
+      res.status(400);
+      throw new Error('سعر الشراء يجب أن يكون رقماً لا يقل عن الصفر');
+    }
+
     let parsedVariants = [];
     let totalQuantity = Number(quantity) || 0;
     const isVariantProduct = Boolean(hasVariants && Array.isArray(variants) && variants.length > 0);
@@ -83,23 +109,26 @@ const createProduct = async (req, res, next) => {
             color,
             size,
             quantity: qty,
-            sellingPrice: v.sellingPrice !== undefined && v.sellingPrice !== '' ? Number(v.sellingPrice) : Number(sellingPrice),
-            purchasePrice: v.purchasePrice !== undefined && v.purchasePrice !== '' ? Number(v.purchasePrice) : Number(purchasePrice),
+            sellingPrice: v.sellingPrice !== undefined && v.sellingPrice !== '' ? Number(v.sellingPrice) : sp,
+            purchasePrice: v.purchasePrice !== undefined && v.purchasePrice !== '' ? Number(v.purchasePrice) : pp,
             sku: (v.sku || '').trim(),
+            isArchived: Boolean(v.isArchived),
           });
         }
       });
       parsedVariants = Array.from(mergedMap.values());
       totalQuantity = parsedVariants.reduce((sum, v) => sum + v.quantity, 0);
+    } else {
+      totalQuantity = Math.max(0, Math.floor(Number(quantity) || 0));
     }
 
     const product = new Product({
-      name,
-      brand,
-      sellingPrice: Number(sellingPrice),
-      purchasePrice: Number(purchasePrice),
+      name: trimmedName,
+      brand: trimmedBrand,
+      sellingPrice: sp,
+      purchasePrice: pp,
       quantity: totalQuantity,
-      category: category || 'عام',
+      category: trimmedCategory,
       hasVariants: isVariantProduct,
       variants: parsedVariants,
       lowStockThreshold: lowStockThreshold !== undefined ? Number(lowStockThreshold) : 5,

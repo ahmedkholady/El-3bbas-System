@@ -505,19 +505,22 @@ const Products = () => {
       if (editingProduct) {
         await api.put(`/api/products/${editingProduct._id}`, payload);
       } else {
-        await api.post('/api/products', payload, {
-          headers: { 'Idempotency-Key': idempotencyKey },
-        });
+        await api.post('/api/products', payload);
       }
 
       setIsModalOpen(false);
       setStagedVariants([]);
       resetVariantInput();
-      fetchProducts(searchTerm, selectedCategory, false);
+      // Reset filters so the new product (and any new category) is immediately visible
+      setSelectedCategory('');
+      setSearchTerm('');
+      fetchProducts('', '', false);
     } catch (error) {
       console.error('Failed to save product', error);
       setErrorMessage(
-        error.response?.data?.message || 'حدث خطأ أثناء حفظ المنتج، يرجى إعادة المحاولة.'
+        error.response?.data?.message ||
+          error.message ||
+          'حدث خطأ أثناء حفظ المنتج، يرجى إعادة المحاولة.'
       );
     } finally {
       setIsSubmitting(false);

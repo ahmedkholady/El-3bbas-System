@@ -17,7 +17,7 @@ const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
     origin: process.env.FRONTEND_URL || '*',
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   },
 });
 
@@ -27,8 +27,8 @@ app.set('socketio', io);
 // Middleware
 const corsOptions = {
   origin: process.env.FRONTEND_URL || '*',
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Idempotency-Key", "idempotency-key"],
 };
 app.use(cors(corsOptions));
 app.use(express.json({ limit: '50mb' }));
