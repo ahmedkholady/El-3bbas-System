@@ -1,35 +1,62 @@
-# Retail Management System (El-3bbas System)
+El-3bbas System (العباس ستور)
+A full-stack retail management system for managing store inventory, sales and analytics. Built with a React frontend and a Node.js / Express / MongoDB backend, with JWT authentication and role-based access for admins and employees.
 
-A full-stack web application for managing retail store operations including inventory, sales, and analytics.
-
-## 🚀 Features
-- User authentication (JWT)
-- Role-based access (Admin / Employee)
-- Product management (CRUD)
-- Sales management
-- Real-time stock updates
-- Dashboard analytics (daily/monthly sales, profit, best-selling products)
-
-## 🛠 Tech Stack
-- Frontend: React.js
-- Backend: Node.js, Express.js
-- Database: MongoDB
-- Authentication: JWT
-- Deployment: Railway / Netlify
-
-## 📸 Screenshots
-<img width="1366" height="640" alt="1" src="https://github.com/user-attachments/assets/10b8e925-9e1d-4052-ad81-349f86c97e52" />
-<img width="1362" height="637" alt="5" src="https://github.com/user-attachments/assets/b432b1a0-03ef-4d30-8d0e-25ad88c1065a" />
-<img width="1363" height="636" alt="4" src="https://github.com/user-attachments/assets/7adeaa58-134f-4814-aac4-369cd0a0aff4" />
-<img width="1363" height="638" alt="3" src="https://github.com/user-attachments/assets/cc90c41f-679b-40d4-8f3c-7a1befcd6485" />
-<img width="1361" height="638" alt="2" src="https://github.com/user-attachments/assets/2ad58d37-8c49-498f-9248-b018b10444cc" />
-
-
-
-## ⚙️ Installation
-
-```bash
+Features
+User authentication with JWT
+Role-based access (Admin / Employee)
+Product management (CRUD)
+Sales management
+Real-time stock updates and low-stock notifications (Socket.io)
+Dashboard analytics: daily and monthly sales, profit, best-selling products
+Tech Stack
+Layer	Technologies
+Frontend	React, Vite, Tailwind CSS, Zustand, React Router, Axios, Recharts, Socket.io client
+Backend	Node.js, Express, Socket.io
+Database	MongoDB (Mongoose)
+Auth	JSON Web Tokens (JWT), bcrypt
+Deployment	Vercel
+Screenshots
+Login	Dashboard
+<img src="https://github.com/user-attachments/assets/10b8e925-9e1d-4052-ad81-349f86c97e52" alt="Login page" width="420">	<img src="https://github.com/user-attachments/assets/cc90c41f-679b-40d4-8f3c-7a1befcd6485" alt="Dashboard with sales overview" width="420">
+Products	Sales
+<img src="https://github.com/user-attachments/assets/2ad58d37-8c49-498f-9248-b018b10444cc" alt="Products management" width="420">	<img src="https://github.com/user-attachments/assets/7adeaa58-134f-4814-aac4-369cd0a0aff4" alt="Sales and new invoice" width="420">
+Settings
+<img src="https://github.com/user-attachments/assets/b432b1a0-03ef-4d30-8d0e-25ad88c1065a" alt="Profile and account settings" width="420">
+Getting Started
+Prerequisites
+Node.js 18 or later
+A MongoDB database (local or MongoDB Atlas)
+1. Clone the repository
 git clone https://github.com/ahmedkholady/El-3bbas-System.git
-cd project
+cd El-3bbas-System
+2. Run the backend
+cd backend
 npm install
-npm start
+Create a .env file in backend/:
+
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+FRONTEND_URL=http://localhost:5173
+Start the server (optionally seed sample data first):
+
+npm run data:import   # optional: import sample data
+npm run dev
+3. Run the frontend
+cd frontend
+npm install
+Create a .env file in frontend/:
+
+VITE_API_URL=http://localhost:5000
+npm run dev
+The app opens at http://localhost:5173.
+
+Project Structure
+El-3bbas-System/
+├── backend/    # Express API: routes, controllers, models, middlewares
+└── frontend/   # React app: pages, components, store, services
+Author
+Ahmed Kholady
+
+GitHub: @ahmedkholady
+Portfolio: ahmedkholady.github.io/portfolio
