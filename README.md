@@ -24,11 +24,11 @@ A full-stack retail management system for managing store inventory, sales and an
 
 ## Screenshots
 
-| Login | Dashboard |
+| Login | Products |
 | --- | --- |
 | <img src="https://github.com/user-attachments/assets/10b8e925-9e1d-4052-ad81-349f86c97e52" alt="Login page" width="420"> | <img src="https://github.com/user-attachments/assets/cc90c41f-679b-40d4-8f3c-7a1befcd6485" alt="Dashboard with sales overview" width="420"> |
 
-| Products | Sales |
+| Dashboard | Sales |
 | --- | --- |
 | <img src="https://github.com/user-attachments/assets/2ad58d37-8c49-498f-9248-b018b10444cc" alt="Products management" width="420"> | <img src="https://github.com/user-attachments/assets/7adeaa58-134f-4814-aac4-369cd0a0aff4" alt="Sales and new invoice" width="420"> |
 
