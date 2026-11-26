@@ -1,4 +1,3 @@
-[README.new-06f217b7.md](https://github.com/user-attachments/files/35466223/README.new-06f217b7.md)
 # El-3bbas System (العباس ستور)
 
 A full-stack retail management system for managing store inventory, sales and analytics. Built with a React frontend and a Node.js / Express / MongoDB backend, with JWT authentication and role-based access for admins and employees.
